@@ -795,25 +795,35 @@
             color: #d5bba7
         }
 
+        .telegram,
         .whatsapp {
             position: fixed;
             bottom: 24px;
             right: 24px;
             width: 55px;
             height: 55px;
-            background: #437449;
+            background: #24A1DE;
             color: white;
             border: 3px solid #fff9ee;
-            box-shadow: 0 5px 24px #0003;
+            box-shadow: 0 5px 24px rgba(0, 0, 0, 0.2);
             border-radius: 50%;
             display: grid;
             place-items: center;
-            z-index: 25
+            z-index: 25;
+            transition: transform .2s ease, box-shadow .2s ease;
         }
 
+        .telegram:hover,
+        .whatsapp:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 28px rgba(36, 161, 222, 0.45);
+        }
+
+        .telegram svg,
         .whatsapp svg {
-            width: 28px;
-            height: 28px
+            width: 26px;
+            height: 26px;
+            transform: translate(-1px, 1px);
         }
 
         .skip {
@@ -1155,6 +1165,7 @@
                 margin-bottom: 8px
             }
 
+            .telegram,
             .whatsapp {
                 bottom: 18px;
                 right: 15px
@@ -1979,7 +1990,7 @@
                         <h2>Наше меню</h2>
                         <div class="tabs" role="tablist" aria-label="Разделы меню" id="tabs"></div>
                         <div id="menu-panel" role="tabpanel" tabindex="0"></div>
-                        <p class="menu-note">Наличие и размер порции уточняйте в кофейне или WhatsApp. В составе могут
+                        <p class="menu-note">Наличие и размер порции уточняйте в кофейне или Telegram. В составе могут
                             быть орехи, молочные продукты и другие аллергены. Мёд и белый шоколад могут содержать сахара
                             — уточняйте состав выбранного десерта.</p>
                     </div>
@@ -1998,8 +2009,8 @@
                                 <p>Спросите о составе, наличии десертов или просто напишите нам.</p><a
                                     class="contact-phone" href="tel:+77087771007">+7 708 777 10 07</a>
                             </div>
-                            <div class="contact-actions"><a class="btn" href="https://wa.me/77087771007" target="_blank"
-                                    rel="noopener noreferrer">Написать в WhatsApp ↗</a></div>
+                            <div class="contact-actions"><a class="btn" href="https://t.me/Tony_Bony_deserts_bot" target="_blank"
+                                    rel="noopener noreferrer">Написать в Telegram ↗</a></div>
                         </article>
                         <article class="contact">
                             <div class="contact-main"><span class="contact-icon" aria-hidden="true">✉</span>
@@ -2040,10 +2051,9 @@
             <div class="fineprint"><span>© <span id="year"></span> Tony-Bony Deserts · Астана</span><span>Кофе и
                     полезные десерты</span></div>
         </div>
-    </footer><a class="whatsapp" href="https://wa.me/77087771007" target="_blank" rel="noopener noreferrer"
-        aria-label="Связаться в WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M20 11.5a8 8 0 0 1-12 7L3 20l1.4-4.8A8 8 0 1 1 20 11.5Z" />
-            <path d="M8 7c-2 2 3 8 6 8l2-2-3-1-1 1-3-3 1-1-2-2Z" />
+    </footer><a class="telegram" href="https://t.me/Tony_Bony_deserts_bot" target="_blank" rel="noopener noreferrer"
+        aria-label="Связаться в Telegram"><svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701h-.002l-.313 4.693c.46 0 .663-.211.921-.46l2.211-2.15 4.599 3.397c.848.467 1.457.227 1.668-.785l3.019-14.228c.309-1.239-.473-1.8-1.282-1.434z" />
         </svg></a>
     <div id="toast" class="toast" role="status" hidden></div>
     <script>
