@@ -2080,6 +2080,55 @@
         const theme = document.querySelector('.theme'); function setTheme(d) { document.body.classList.toggle('dark', d); theme.textContent = d ? '☀' : '☾'; theme.setAttribute('aria-label', d ? 'Включить светлую тему' : 'Включить тёмную тему'); theme.setAttribute('aria-pressed', d) } let saved; try { saved = localStorage.getItem('tonybony-theme') } catch { } setTheme(saved ? saved === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches); theme.onclick = () => { const d = !document.body.classList.contains('dark'); setTheme(d); try { localStorage.setItem('tonybony-theme', d ? 'dark' : 'light') } catch { } }; document.getElementById('copy').onclick = async () => { try { await navigator.clipboard.writeText('sagandykova.batikha@gmail.com'); let t = document.getElementById('toast'); t.textContent = 'Адрес почты скопирован'; t.hidden = false; setTimeout(() => t.hidden = true, 3000) } catch { let r = document.createRange(); r.selectNodeContents(document.querySelector('.email')); let s = getSelection(); s.removeAllRanges(); s.addRange(r); document.getElementById('copy').textContent = 'Адрес выделен — нажмите Ctrl+C / ⌘C' } }; document.getElementById('year').textContent = new Date().getFullYear();
         const canvas = document.createElement('canvas'); canvas.width = 64; canvas.height = 64; const im = new Image(); im.onload = () => { let c = canvas.getContext('2d'); c.fillStyle = '#FCF1E3'; c.fillRect(0, 0, 64, 64); c.drawImage(im, im.width * .31, im.height * .02, im.width * .36, im.height * .44, 0, 0, 64, 64); let l = document.createElement('link'); l.rel = 'icon'; l.href = canvas.toDataURL(); document.head.append(l) }; im.src = LOGO;
     </script>
+<!-- Tony-Bony knowledge assistant -->
+<div id="tbd-rag-widget"></div>
+<script>
+(() => {
+  const host=document.getElementById('tbd-rag-widget');
+  if(!host || host.shadowRoot)return;
+  const root=host.attachShadow({mode:'open'});
+  root.innerHTML=`
+<style>
+:host{all:initial;font-family:Arial,sans-serif;color:#572c1d;font-size:15px}
+*{box-sizing:border-box}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+.launch{position:fixed;bottom:90px;right:20px;z-index:99998;border:0;border-radius:30px;padding:15px 21px;background:#980e32;color:#fff;box-shadow:0 5px 22px #572c1d33;cursor:pointer;font-weight:700}
+.panel{position:fixed;right:20px;bottom:150px;width:380px;height:530px;max-height:calc(100dvh - 180px);max-width:calc(100vw - 28px);z-index:99999;background:#fffaf3;border:1px solid #dfc9b5;border-radius:20px;box-shadow:0 12px 48px #572c1d40;overflow:hidden;display:flex;flex-direction:column}
+header{background:#980e32;color:white;padding:18px;display:flex;align-items:center;justify-content:space-between}h2{margin:0;font-size:19px}header p{margin:5px 0 0;font-size:12px;color:#ffe9dc}.close{background:transparent;color:white;border:0;font-size:27px;cursor:pointer;padding:2px 8px}
+.messages{flex:1;overflow-y:auto;padding:16px;overscroll-behavior:contain}.msg{padding:12px 14px;border-radius:15px;background:#f6e9d8;margin:0 0 12px;white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere;font-size:14px}.user{background:#980e32;color:white;margin-left:35px}.sources{display:block;margin-top:9px;font-size:11px;color:#796554}.choices{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.choice{background:white;color:#980e32;border:1px solid #dfc9b5;border-radius:16px;padding:7px 10px;cursor:pointer;font-size:12px}
+form{display:flex;gap:8px;padding:12px;border-top:1px solid #eadbcd}input{min-width:0;flex:1;border:1px solid #d8bfac;background:white;color:#572c1d;border-radius:12px;padding:11px;font-size:16px}.send{border:0;border-radius:12px;background:#980e32;color:white;padding:10px 13px;cursor:pointer}button:disabled{opacity:.5;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #c59a4c;outline-offset:2px}
+footer{padding:0 14px 12px;font-size:11px;line-height:1.4;color:#796554}footer a{display:block;color:#980e32;font-size:14px;font-weight:700;margin:0 0 8px}
+@media(max-width:480px){.panel{right:14px;bottom:145px;width:calc(100vw - 28px);height:520px;max-height:calc(100dvh - 165px)}.launch{right:14px;bottom:85px}}
+</style>
+<button class="launch" type="button" aria-expanded="false" aria-controls="tbd-panel">Спросить о десертах</button>
+<section class="panel" id="tbd-panel" hidden role="region" aria-label="Помощник Tony-Bony Deserts">
+<header><div><h2>Tony-Bony Deserts</h2><p>Поможем выбрать сладкую паузу</p></div><button class="close" type="button" aria-label="Закрыть чат">×</button></header>
+<div class="messages" role="log" aria-live="polite" aria-relevant="additions text"><div class="msg">Здравствуйте! Подскажу по меню, ценам и правилам заказа. Что вас интересует?</div><div class="choices"><button class="choice" type="button">Что есть в меню?</button><button class="choice" type="button">Как оформить заказ?</button><button class="choice" type="button">Самовывоз и доставка</button></div></div>
+<form><input aria-label="Ваш вопрос" placeholder="Напишите вопрос…" maxlength="2000" required autocomplete="off"><button class="send" type="submit" aria-label="Отправить вопрос">➜</button></form>
+<footer><a href="https://wa.me/77087771007" target="_blank" rel="noopener noreferrer">Оформить заказ в WhatsApp ↗</a>Ответы готовит ИИ по материалам кофейни. Каждый вопрос рассматривается отдельно. Вопрос отправляется в OpenAI. Не указывайте платёжные и другие конфиденциальные данные.</footer>
+</section>`;
+  const q=s=>root.querySelector(s),panel=q('.panel'),launch=q('.launch'),input=q('input'),messages=q('.messages'),send=q('.send');
+  function open(value){panel.hidden=!value;launch.setAttribute('aria-expanded',String(value));if(value)input.focus();else launch.focus();}
+  launch.onclick=()=>open(panel.hidden);q('.close').onclick=()=>open(false);
+  root.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)open(false);});
+  function bubble(text,user=false){const el=document.createElement('div');el.className='msg'+(user?' user':'');el.textContent=text;messages.append(el);messages.scrollTop=messages.scrollHeight;return el;}
+  let busy=false;
+  async function ask(text){
+    text=text.trim();if(!text||text.length>2000||busy)return;
+    busy=true;send.disabled=true;input.disabled=true;root.querySelectorAll('.choice').forEach(b=>b.disabled=true);bubble(text,true);input.value='';const answer=bubble('Ищу ответ в материалах кофейни…');
+    try{
+      const r=await fetch('https://tony-bony-rag.batik-kz.workers.dev/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text}),signal:AbortSignal.timeout(55000)});
+      const data=await r.json();if(!r.ok||!data.answer)throw new Error(data.error||'Не удалось получить ответ.');
+      answer.textContent=data.answer;
+      if(Array.isArray(data.sources)&&data.sources.length){const source=document.createElement('small');source.className='sources';source.textContent='Источник: '+data.sources.map(n=>n==='Tony-Bony_Deserts_Menu.pdf'?'Меню':n==='Tony-Bony_Order_Rules.pdf'?'Правила заказа':n).join(', ');answer.append(source);}
+    }catch(e){answer.textContent=e.name==='TimeoutError'?'Ответ занял слишком много времени. Попробуйте ещё раз или напишите в WhatsApp.':e instanceof TypeError?'Не удалось связаться с помощником. Попробуйте позже или напишите в WhatsApp.':e.message;}
+    finally{busy=false;send.disabled=false;input.disabled=false;root.querySelectorAll('.choice').forEach(b=>b.disabled=false);messages.scrollTop=messages.scrollHeight;if(!panel.hidden)input.focus();}
+  }
+  q('form').onsubmit=e=>{e.preventDefault();ask(input.value);};
+  root.querySelectorAll('.choice').forEach(b=>b.onclick=()=>ask(b.textContent));
+})();
+</script>
+
 </body>
 
 </html>
